@@ -12,6 +12,7 @@ pipeline {
                 git 'https://github.com/Iranna1233/python-arm64-app.git'
             }
         }
+
 stage('Build Docker Image') {
     steps {
         script {
@@ -23,17 +24,16 @@ stage('Build Docker Image') {
             '''
 
             // Build the Docker image using buildx for ARM64 platform
-            sh 'docker buildx build --platform linux/arm64 -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:${env.BUILD_ID} .'
+            sh "docker buildx build --platform linux/arm64 -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:${env.BUILD_ID} ."
 
             // Optional: Push the image to the registry (ECR in your case)
-            sh '''
-            aws ecr get-login-password --region us-east-1 | docker login --username  --password-stdin 474668409862.dkr.ecr.us-east-1.amazonaws.com
+            sh """
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 474668409862.dkr.ecr.us-east-1.amazonaws.com
             docker buildx build --platform linux/arm64 --push -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:${env.BUILD_ID} .
-            '''
+            """
         }
     }
 }
-
 
 
 
