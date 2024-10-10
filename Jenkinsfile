@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'CIagent' }
+    agent any
     environment {
         registry = '474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo'
         dockerImage = ''
