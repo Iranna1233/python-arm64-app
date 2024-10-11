@@ -23,19 +23,19 @@ stage('Build Docker Image') {
             chmod +x ~/.docker/cli-plugins/docker-buildx
             '''
 
-            // Create and bootstrap a new builder instance for buildx
-            sh '''
-            docker buildx create --name mybuilder --use
-            docker buildx inspect --bootstrap
-            '''
+            // // Create and bootstrap a new builder instance for buildx
+            // sh '''
+            // docker build create --name mybuilder --use
+            // docker buildx inspect --bootstrap
+            // '''
 
             // Build the Docker image using buildx for ARM64 platform
-            sh "docker buildx build --platform linux/arm64 -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:10 ."
+            sh "docker build --platform linux/arm64 -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:10 ."
 
             // Optional: Push the image to the registry (ECR in your case)
             sh '''
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 474668409862.dkr.ecr.us-east-1.amazonaws.com
-            docker buildx build --platform linux/arm64 --push -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:10 .
+            docker build --platform linux/arm64 --push -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:10 .
             '''
         }
     }
