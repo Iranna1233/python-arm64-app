@@ -47,7 +47,7 @@ pipeline {
                 script {
                     // Build the Docker image for ARM64
                    // dockerImage = docker.build("${registry}:${env.BUILD_ID}", "--platform linux/arm64 .")
-                    sh 'docker buildx build --platform linux/arm64 -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:${env.BUILD_ID} .'
+                    sh '''docker buildx build --platform linux/arm64 -t 474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo:${env.BUILD_ID} .'''
                 }
             }
          }
