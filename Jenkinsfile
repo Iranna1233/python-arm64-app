@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image for ARM64
-                   # sh "sudo -S chmod 777 /var/run/docker.sock"
+                    sh "sudo chmod 777 /var/run/docker.sock"
                     img = registry + ":${env.BUILD_ID}" + '-' + "${GIT_COMMIT_ID}"
                     tags = "latest"
                     dockerImage0 = docker.build(registry + ":${tags}")
