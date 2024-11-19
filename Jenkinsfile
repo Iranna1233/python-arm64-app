@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        registry = '474668409862.dkr.ecr.us-east-1.amazonaws.com/middleware-dev-repo'
+        registry = '741448919997.dkr.ecr.us-east-1.amazonaws.com/middleware/graviton'
         dockerImage = ''
         registryCredential = 'aws-credentials' // Replace with your actual AWS credentials ID in Jenkins
         GIT_COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short=10 HEAD').trim()
@@ -25,16 +25,16 @@ pipeline {
                 }
             }
         }
-        // stage('Push Docker Image') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('https://474668409862.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws ') {
-        //                 dockerImage0.push()
-        //                 dockerImage1.push()
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('741448919997.dkr.ecr.us-east-1.amazonaws.com/middleware/graviton', 'ecr:us-east-1:aws ') {
+                        dockerImage0.push()
+                        dockerImage1.push()
+                    }
+                }
+            }
+        }
     }
     // post {
     //     always {
