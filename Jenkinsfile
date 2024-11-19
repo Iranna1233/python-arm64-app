@@ -28,7 +28,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('741448919997.dkr.ecr.us-east-1.amazonaws.com', registryCredential) {
+                    docker.withRegistry('741448919997.dkr.ecr.us-east-1.amazonaws.com', 'registryCredential') {
                         dockerImage0.push()
                         dockerImage1.push()
                     }
