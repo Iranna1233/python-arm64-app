@@ -1,12 +1,14 @@
+currentBuild.displayName = 'Notification-#' + currentBuild.number
+
 pipeline {
     agent any
     environment {
         registry = '741448919997.dkr.ecr.us-east-1.amazonaws.com/middleware/graviton'
-        registryCredential = 'aws-credentials' // Replace with your actual AWS credentials ID in Jenkins
+        dockerImage = '' // Replace with your actual AWS credentials ID in Jenkins
         GIT_COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short=10 HEAD').trim()
     }
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
                 // Clone the GitHub repository
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'aws-credentials', url: 'https://github.com/Iranna1233/python-arm64-app']])
@@ -16,10 +18,10 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image for ARM64
-                    sh "sudo chmod 777 /var/run/docker.sock"
+               //     sh 'sudo chmod 660 /var/run/docker.sock'
                     img = registry + ":${env.BUILD_ID}" + '-' + "${GIT_COMMIT_ID}"
-                    tags = "latest"
-                    dockerImage0 = docker.build(registry + ":${tags}")
+                    tags = "Graviton"
+                    dockerImage0 = docker.build(registry + ":${tags}", "--platform linux/arm64 .")
                
                 }
             }
@@ -28,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Use the correct protocol in the Docker registry URL
-                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'aws-credentials') {
+                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws') {
                         dockerImage0.push()
                   
                     }
@@ -37,7 +39,6 @@ pipeline {
         }
     }
 }
-
 
 // pipeline {
 //     agent any
