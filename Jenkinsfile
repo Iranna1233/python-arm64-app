@@ -16,11 +16,11 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image for ARM64
-                    sudo chmod 777 /var/run/docker.sock
+                    sh "sudo chmod 777 /var/run/docker.sock"
                     img = registry + ":${env.BUILD_ID}" + '-' + "${GIT_COMMIT_ID}"
                     tags = "latest"
                     dockerImage0 = docker.build(registry + ":${tags}")
-                    dockerImage1 = docker.build("${img}")
+                #    dockerImage1 = docker.build("${img}")
                 }
             }
         }
@@ -28,9 +28,9 @@ pipeline {
             steps {
                 script {
                     // Use the correct protocol in the Docker registry URL
-                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'registryCredential') {
+                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'aws-credentials') {
                         dockerImage0.push()
-                        dockerImage1.push()
+                   #     dockerImage1.push()
                     }
                 }
             }
