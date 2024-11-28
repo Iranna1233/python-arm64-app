@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Use the correct protocol in the Docker registry URL
-                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws') {
+                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'ecr:aws') {
                         dockerImage0.push()
                   
                     }
