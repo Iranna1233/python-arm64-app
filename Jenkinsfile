@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Use the correct protocol in the Docker registry URL
-                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', '${aws}') {
+                    docker.withRegistry('https://741448919997.dkr.ecr.us-east-1.amazonaws.com', 'aws-credentials') {
                         sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 741448919997.dkr.ecr.us-east-1.amazonaws.com"
                         dockerImage0.push()
                      
